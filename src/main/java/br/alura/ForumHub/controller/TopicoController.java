@@ -1,17 +1,19 @@
 package br.alura.ForumHub.controller;
 
 import br.alura.ForumHub.dto.topico.DadosTopicoCadastro;
+import br.alura.ForumHub.dto.topico.DadosTopicoResponse;
 import br.alura.ForumHub.model.entities.Curso;
 import br.alura.ForumHub.model.entities.Topico;
 import br.alura.ForumHub.service.CursoService;
 import br.alura.ForumHub.service.TopicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/topicos")
@@ -42,5 +44,12 @@ public class TopicoController {
         var topicoResponse = topicoService.criarTopico(cadastro, curso);
 
         return ResponseEntity.ok(topicoResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<DadosTopicoResponse>> listarTopicos(
+            @PageableDefault(size = 10, sort = "dataCriacao", direction = Sort.Direction.ASC)Pageable paginacao) {
+        var page = topicoService.buscarTodos(paginacao).map(DadosTopicoResponse::new);
+        return ResponseEntity.ok(page);
     }
 }
