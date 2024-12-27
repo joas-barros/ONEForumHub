@@ -1,7 +1,6 @@
 package br.alura.ForumHub.model.entities;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,10 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Table(name = "usuarios")
 @Entity(name = "Usuario")
-@EqualsAndHashCode(of = "id")
 public class Usuario implements UserDetails {
 
     @Id
@@ -76,6 +75,18 @@ public class Usuario implements UserDetails {
 
     public Boolean getAtivo() {
         return ativo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Usuario usuario)) return false;
+        return Objects.equals(getId(), usuario.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override

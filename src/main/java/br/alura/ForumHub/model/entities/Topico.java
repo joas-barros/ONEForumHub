@@ -36,12 +36,13 @@ public class Topico {
     @OneToMany(mappedBy = "topico", fetch = FetchType.LAZY)
     private List<Resposta> respostas = new ArrayList<>();
 
-    public Topico(DadosTopicoCadastro cadastro, Curso curso) {
+    public Topico(DadosTopicoCadastro cadastro, Curso curso, Usuario autor) {
         this.titulo = cadastro.titulo();
         this.mensagem = cadastro.mensagem();
         this.dataCriacao = LocalDateTime.now();
         this.status = StatusTopico.NAO_RESPONDIDO;
         this.curso = curso;
+        this.autor = autor;
     }
 
     public Topico() {

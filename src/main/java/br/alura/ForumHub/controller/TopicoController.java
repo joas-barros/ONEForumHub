@@ -70,7 +70,7 @@ public class TopicoController {
         DadosTopicoResponse topico = topicoService.atualizarTopico(id, atualizacao);
 
         if (topico == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
 
         return ResponseEntity.ok(topico);
@@ -79,12 +79,12 @@ public class TopicoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removerTopico(@PathVariable Long id) {
 
-        var topico = topicoService.buscarPorId(id);
-        if (topico == null) {
-            return ResponseEntity.badRequest().build();
+        var mensagem = topicoService.removerTopico(id);
+
+        if (mensagem != null) {
+            return ResponseEntity.badRequest().body(mensagem);
         }
 
-        topicoService.removerTopico(id);
         return ResponseEntity.ok().build();
     }
 }
