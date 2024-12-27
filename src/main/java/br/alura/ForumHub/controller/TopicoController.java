@@ -78,6 +78,12 @@ public class TopicoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removerTopico(@PathVariable Long id) {
+
+        var topico = topicoService.buscarPorId(id);
+        if (topico == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         topicoService.removerTopico(id);
         return ResponseEntity.ok().build();
     }
