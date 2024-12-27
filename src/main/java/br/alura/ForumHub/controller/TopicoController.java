@@ -1,5 +1,6 @@
 package br.alura.ForumHub.controller;
 
+import br.alura.ForumHub.dto.topico.DadosTopicoAtualizacao;
 import br.alura.ForumHub.dto.topico.DadosTopicoCadastro;
 import br.alura.ForumHub.dto.topico.DadosTopicoDetalhado;
 import br.alura.ForumHub.dto.topico.DadosTopicoResponse;
@@ -61,5 +62,11 @@ public class TopicoController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(new DadosTopicoDetalhado(topico));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarTopico(@PathVariable Long id, @RequestBody @Valid DadosTopicoAtualizacao atualizacao) {
+
+        return ResponseEntity.ok(topicoService.atualizarTopico(id, atualizacao));
     }
 }

@@ -1,5 +1,6 @@
 package br.alura.ForumHub.service;
 
+import br.alura.ForumHub.dto.topico.DadosTopicoAtualizacao;
 import br.alura.ForumHub.dto.topico.DadosTopicoCadastro;
 import br.alura.ForumHub.dto.topico.DadosTopicoResponse;
 import br.alura.ForumHub.model.entities.Curso;
@@ -48,5 +49,13 @@ public class TopicoService {
         return topicoRepository.findById(id).orElse(null);
     }
 
+    @Transactional
+    public DadosTopicoResponse atualizarTopico(Long id, DadosTopicoAtualizacao atualizacao) {
+        Topico topico = topicoRepository.getReferenceById(id);
+
+        topico.atualizar(atualizacao);
+
+        return new DadosTopicoResponse(topico);
+    }
 
 }

@@ -1,12 +1,10 @@
 package br.alura.ForumHub.model.entities;
 
+import br.alura.ForumHub.dto.topico.DadosTopicoAtualizacao;
 import br.alura.ForumHub.dto.topico.DadosTopicoCadastro;
 import br.alura.ForumHub.model.enums.StatusTopico;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -90,5 +88,16 @@ public class Topico {
 
     public List<Resposta> getRespostas() {
         return respostas;
+    }
+
+    public void atualizar(DadosTopicoAtualizacao atualizacao) {
+
+        if (atualizacao.titulo() != null) {
+            this.titulo = atualizacao.titulo();
+        }
+
+        if (atualizacao.mensagem() != null) {
+            this.mensagem = atualizacao.mensagem();
+        }
     }
 }
