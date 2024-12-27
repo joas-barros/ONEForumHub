@@ -1,6 +1,7 @@
 package br.alura.ForumHub.controller;
 
 import br.alura.ForumHub.dto.topico.DadosTopicoCadastro;
+import br.alura.ForumHub.dto.topico.DadosTopicoDetalhado;
 import br.alura.ForumHub.dto.topico.DadosTopicoResponse;
 import br.alura.ForumHub.model.entities.Curso;
 import br.alura.ForumHub.model.entities.Topico;
@@ -51,5 +52,14 @@ public class TopicoController {
             @PageableDefault(size = 10, sort = "dataCriacao", direction = Sort.Direction.ASC)Pageable paginacao) {
         var page = topicoService.buscarTodos(paginacao).map(DadosTopicoResponse::new);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosTopicoDetalhado> buscarPorId(@PathVariable Long id) {
+        var topico = topicoService.buscarPorId(id);
+        if (topico == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new DadosTopicoDetalhado(topico));
     }
 }

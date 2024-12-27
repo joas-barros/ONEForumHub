@@ -44,5 +44,9 @@ public class TopicoService {
         return topicoRepository.findAll(paginacao);
     }
 
+    public Topico buscarPorId(Long id) {
+        return topicoRepository.findById(id).orElse(null);
+    }
+
 
 }
