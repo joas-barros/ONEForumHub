@@ -62,4 +62,9 @@ public class TopicoService {
         return new DadosTopicoResponse(topico);
     }
 
+    @Transactional
+    public void removerTopico(Long id) {
+        topicoRepository.deleteById(id);
+    }
+
 }
