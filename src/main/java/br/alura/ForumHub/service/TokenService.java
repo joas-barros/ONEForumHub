@@ -33,4 +33,16 @@ public class TokenService {
     private Instant dataExpiracao() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
+
+    public String getSujeito(String tpkenJWT) {
+        try{
+            return JWT.require(Algorithm.HMAC256(secret))
+                    .withIssuer("ForumHub")
+                    .build()
+                    .verify(tpkenJWT)
+                    .getSubject();
+        } catch (JWTCreationException exception){
+            throw new RuntimeException("Erro ao verificar token", exception);
+        }
+    }
 }
