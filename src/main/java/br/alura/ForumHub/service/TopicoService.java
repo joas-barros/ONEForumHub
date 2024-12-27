@@ -51,7 +51,11 @@ public class TopicoService {
 
     @Transactional
     public DadosTopicoResponse atualizarTopico(Long id, DadosTopicoAtualizacao atualizacao) {
-        Topico topico = topicoRepository.getReferenceById(id);
+        Topico topico = topicoRepository.findById(id).orElse(null);
+
+        if (topico == null) {
+            return null;
+        }
 
         topico.atualizar(atualizacao);
 
