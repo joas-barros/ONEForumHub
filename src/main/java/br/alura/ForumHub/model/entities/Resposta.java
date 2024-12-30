@@ -1,18 +1,14 @@
 package br.alura.ForumHub.model.entities;
 
+import br.alura.ForumHub.dto.resposta.DadosRespostaAtualizacao;
+import br.alura.ForumHub.dto.resposta.DadosRespostaCadastro;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Table(name = "respostas")
 @Entity(name = "Resposta")
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Resposta {
 
@@ -31,4 +27,58 @@ public class Resposta {
     private Usuario autor;
     private String solucao;
 
+    public Resposta(DadosRespostaCadastro dados, Topico topico, Usuario usuario) {
+        this.mensagem = dados.mensagem();
+        this.solucao = dados.solucao();
+        this.topico = topico;
+        this.autor = usuario;
+        this.dataCriacao = LocalDateTime.now();
+    }
+
+    public Resposta() {
+    }
+
+    public Resposta(Long id, String mensagem, LocalDateTime dataCriacao, Topico topico, Usuario autor, String solucao) {
+        this.id = id;
+        this.mensagem = mensagem;
+        this.dataCriacao = dataCriacao;
+        this.topico = topico;
+        this.autor = autor;
+        this.solucao = solucao;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public Topico getTopico() {
+        return topico;
+    }
+
+    public Usuario getAutor() {
+        return autor;
+    }
+
+    public String getSolucao() {
+        return solucao;
+    }
+
+    public void atualizar(DadosRespostaAtualizacao resposta) {
+
+        if(resposta.mensagem() != null){
+            this.mensagem = resposta.mensagem();
+        }
+
+        if(resposta.solucao() != null){
+            this.solucao = resposta.solucao();
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package br.alura.ForumHub.dto.topico;
 
+import br.alura.ForumHub.dto.resposta.DadosRespostaResponse;
 import br.alura.ForumHub.model.entities.Resposta;
 import br.alura.ForumHub.model.entities.Topico;
 import br.alura.ForumHub.model.enums.StatusTopico;
@@ -12,7 +13,7 @@ public record DadosTopicoDetalhado(
         String mensagem,
         String nomeAutor,
         StatusTopico status,
-        List<Resposta> respostas
+        List<DadosRespostaResponse> respostas
 ) {
     public DadosTopicoDetalhado(Topico topico) {
         this(

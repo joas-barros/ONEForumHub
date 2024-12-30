@@ -9,6 +9,7 @@ import br.alura.ForumHub.infra.validacao.topico.criacao.ValidacaoCriacaodeTopico
 import br.alura.ForumHub.model.entities.Curso;
 import br.alura.ForumHub.model.entities.Topico;
 import br.alura.ForumHub.model.entities.Usuario;
+import br.alura.ForumHub.model.enums.StatusTopico;
 import br.alura.ForumHub.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -98,4 +99,14 @@ public class TopicoService {
         topicoRepository.deleteById(id);
     }
 
+    @Transactional
+    public void atualizarStatusTopico(Topico topico) {
+        if (topico.getStatus().equals(StatusTopico.NAO_RESPONDIDO)) {
+            topico.setStatus(StatusTopico.NAO_SOLUCIONADO);
+            return;
+        }
+        if (topico.getStatus().equals(StatusTopico.NAO_SOLUCIONADO)) {
+            topico.setStatus(StatusTopico.SOLUCIONADO);
+        }
+    }
 }

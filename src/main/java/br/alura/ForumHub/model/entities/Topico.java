@@ -1,5 +1,6 @@
 package br.alura.ForumHub.model.entities;
 
+import br.alura.ForumHub.dto.resposta.DadosRespostaResponse;
 import br.alura.ForumHub.dto.topico.DadosTopicoAtualizacao;
 import br.alura.ForumHub.dto.topico.DadosTopicoCadastro;
 import br.alura.ForumHub.model.enums.StatusTopico;
@@ -87,8 +88,8 @@ public class Topico {
         return curso;
     }
 
-    public List<Resposta> getRespostas() {
-        return respostas;
+    public List<DadosRespostaResponse> getRespostas() {
+        return respostas.stream().map(DadosRespostaResponse::new).toList();
     }
 
     public void atualizar(DadosTopicoAtualizacao atualizacao) {
@@ -100,5 +101,9 @@ public class Topico {
         if (atualizacao.mensagem() != null) {
             this.mensagem = atualizacao.mensagem();
         }
+    }
+
+    public void setStatus(StatusTopico statusTopico) {
+        this.status = statusTopico;
     }
 }
