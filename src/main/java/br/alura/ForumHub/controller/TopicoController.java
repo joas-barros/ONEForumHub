@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/topicos")
@@ -21,13 +22,14 @@ public class TopicoController {
     @Autowired
     private TopicoService topicoService;
 
-    // Deve retornar created com o URI do recurso criado
     @PostMapping
-    public ResponseEntity<?> criarTopico(@RequestBody @Valid DadosTopicoCadastro cadastro) {
+    public ResponseEntity<?> criarTopico(@RequestBody @Valid DadosTopicoCadastro cadastro, UriComponentsBuilder uriBuilder) {
 
         var topicoResponse = topicoService.criarTopico(cadastro);
 
-        return ResponseEntity.ok(topicoResponse);
+        var uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topicoResponse.id()).toUri();
+
+        return ResponseEntity.created(uri).body(topicoResponse);
     }
 
     @GetMapping
