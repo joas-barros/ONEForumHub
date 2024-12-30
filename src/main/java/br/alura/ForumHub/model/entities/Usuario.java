@@ -1,6 +1,7 @@
 package br.alura.ForumHub.model.entities;
 
 import br.alura.ForumHub.dto.usuario.DadosCadastroUsuario;
+import br.alura.ForumHub.dto.usuario.DadosUsuarioAtualizacao;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -112,5 +113,20 @@ public class Usuario implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    public void atualizar(DadosUsuarioAtualizacao dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+
+        if (dados.senha() != null) {
+            this.senha = dados.senha();
+        }
+    }
+
+
+    public void deletar() {
+        this.ativo = false;
     }
 }

@@ -1,6 +1,8 @@
 package br.alura.ForumHub.controller;
 
 import br.alura.ForumHub.dto.usuario.DadosCadastroUsuario;
+import br.alura.ForumHub.dto.usuario.DadosUsuarioAtualizacao;
+import br.alura.ForumHub.dto.usuario.DadosUsuarioResponse;
 import br.alura.ForumHub.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,16 @@ public class UsuarioController {
     }
 
     @PutMapping
-    public void atualizarUsuario() {
-        System.out.println("Atualizando usuário");
+    public ResponseEntity<DadosUsuarioResponse> atualizarUsuario(@RequestBody @Valid DadosUsuarioAtualizacao dados) {
+
+        DadosUsuarioResponse usuarioAtualizado = usuarioService.atualizarUsuario(dados);
+        return ResponseEntity.ok(usuarioAtualizado);
     }
 
     @DeleteMapping
-    public void removerUsuario() {
-        System.out.println("Removendo usuário");
+    public ResponseEntity<?> removerUsuario() {
+        usuarioService.deletar();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/topicos")

@@ -40,6 +40,8 @@ public class TopicoService {
     @Transactional
     public DadosTopicoResponse criarTopico(DadosTopicoCadastro cadastro) {
 
+        usuarioService.verificarSeUsuarioEstaAtivo();
+
         validacoesCriacao.forEach(validacao -> validacao.validar(cadastro));
 
         Curso curso = cursoService.buscarPorNome(cadastro.nomeCurso());
@@ -72,16 +74,22 @@ public class TopicoService {
     @Transactional
     public DadosTopicoResponse atualizarTopico(Long id, DadosTopicoAtualizacao atualizacao) {
 
+        usuarioService.verificarSeUsuarioEstaAtivo();
+
         validacoesAtualizacao.forEach(validacao -> validacao.validar(id, atualizacao));
 
         Topico topico = topicoRepository.findById(id).orElse(null);
         topico.atualizar(atualizacao);
 
-        return new DadosTopicoResponse(topico);
+        Topico topicoAtualizado = topicoRepository.save(topico);
+
+        return new DadosTopicoResponse(topicoAtualizado);
     }
 
     @Transactional
     public void removerTopico(Long id) {
+
+        usuarioService.verificarSeUsuarioEstaAtivo();
 
         Topico topico = topicoRepository.findById(id).orElse(null);
 
