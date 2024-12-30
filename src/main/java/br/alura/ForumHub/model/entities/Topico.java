@@ -106,4 +106,5 @@ public class Topico {
     public void setStatus(StatusTopico statusTopico) {
         this.status = statusTopico;
     }
+
 }

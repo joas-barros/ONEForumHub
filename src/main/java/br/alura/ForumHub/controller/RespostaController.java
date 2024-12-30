@@ -36,5 +36,11 @@ public class RespostaController {
         return ResponseEntity.ok(respostaAtualizada);
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deletar(@PathVariable Long id) {
+        respostaService.deletar(id);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

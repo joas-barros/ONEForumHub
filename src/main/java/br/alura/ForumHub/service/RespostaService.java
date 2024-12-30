@@ -63,4 +63,17 @@ public class RespostaService {
             throw new ValidacaoException("Você não tem permição para fazer essa operação");
         }
     }
+
+    @Transactional
+    public void deletar(Long id) {
+        usuarioService.verificarSeUsuarioEstaAtivo();
+
+        Resposta resposta = respostaRepository.findById(id).orElseThrow(() -> new ValidacaoException("Resposta não encontrada"));
+
+        verificarUsuario(resposta);
+
+        respostaRepository.delete(resposta);
+
+        topicoService.decrementarStatus(resposta.getTopico());
+    }
 }

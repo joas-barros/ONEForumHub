@@ -21,6 +21,7 @@ public class TopicoController {
     @Autowired
     private TopicoService topicoService;
 
+    // Deve retornar created com o URI do recurso criado
     @PostMapping
     public ResponseEntity<?> criarTopico(@RequestBody @Valid DadosTopicoCadastro cadastro) {
 

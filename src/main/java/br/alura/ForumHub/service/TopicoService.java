@@ -109,4 +109,11 @@ public class TopicoService {
             topico.setStatus(StatusTopico.SOLUCIONADO);
         }
     }
+
+    @Transactional
+    public void decrementarStatus(Topico topico) {
+        if(topico.getRespostas().size() == 1){
+            topico.setStatus(StatusTopico.NAO_RESPONDIDO);
+        }
+    }
 }
