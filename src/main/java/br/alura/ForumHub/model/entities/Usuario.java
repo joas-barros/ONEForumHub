@@ -1,5 +1,6 @@
 package br.alura.ForumHub.model.entities;
 
+import br.alura.ForumHub.dto.usuario.DadosCadastroUsuario;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,6 +31,7 @@ public class Usuario implements UserDetails {
     private Boolean ativo;
 
     public Usuario(String nome, String email, String senha) {
+        this.id = null;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -47,6 +49,14 @@ public class Usuario implements UserDetails {
         this.topicos = topicos;
         this.respostas = respostas;
         this.ativo = ativo;
+    }
+
+    public Usuario(DadosCadastroUsuario cadastro) {
+        this.id = null;
+        this.nome = cadastro.nome();
+        this.email = cadastro.email();
+        this.senha = cadastro.senha();
+        this.ativo = true;
     }
 
     public Long getId() {

@@ -4,7 +4,6 @@ import br.alura.ForumHub.dto.topico.DadosTopicoAtualizacao;
 import br.alura.ForumHub.dto.topico.DadosTopicoCadastro;
 import br.alura.ForumHub.dto.topico.DadosTopicoDetalhado;
 import br.alura.ForumHub.dto.topico.DadosTopicoResponse;
-import br.alura.ForumHub.service.CursoService;
 import br.alura.ForumHub.service.TopicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
