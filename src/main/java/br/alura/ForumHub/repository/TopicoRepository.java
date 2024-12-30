@@ -12,4 +12,6 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
     Page<Topico> findAll(Pageable paginacao);
 
+    Page<Topico> findByAutorId(Long id, Pageable paginacao);
+
 }

@@ -81,9 +81,7 @@ public class TopicoService {
         Topico topico = topicoRepository.findById(id).orElse(null);
         topico.atualizar(atualizacao);
 
-        Topico topicoAtualizado = topicoRepository.save(topico);
-
-        return new DadosTopicoResponse(topicoAtualizado);
+        return new DadosTopicoResponse(topico);
     }
 
     @Transactional
