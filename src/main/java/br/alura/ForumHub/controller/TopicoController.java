@@ -4,8 +4,6 @@ import br.alura.ForumHub.dto.topico.DadosTopicoAtualizacao;
 import br.alura.ForumHub.dto.topico.DadosTopicoCadastro;
 import br.alura.ForumHub.dto.topico.DadosTopicoDetalhado;
 import br.alura.ForumHub.dto.topico.DadosTopicoResponse;
-import br.alura.ForumHub.model.entities.Curso;
-import br.alura.ForumHub.model.entities.Topico;
 import br.alura.ForumHub.service.CursoService;
 import br.alura.ForumHub.service.TopicoService;
 import jakarta.validation.Valid;
@@ -24,26 +22,10 @@ public class TopicoController {
     @Autowired
     private TopicoService topicoService;
 
-    @Autowired
-    private CursoService cursoService;
-
-
     @PostMapping
     public ResponseEntity<?> criarTopico(@RequestBody @Valid DadosTopicoCadastro cadastro) {
 
-        Curso curso = cursoService.buscarPorNome(cadastro.nomeCurso());
-
-        if (curso == null) {
-            return ResponseEntity.badRequest().body("Curso não encontrado");
-        }
-
-        Topico topico = topicoService.buscarPorTituloEMensagem(cadastro.titulo(), cadastro.mensagem());
-
-        if (topico != null) {
-            return ResponseEntity.badRequest().body("Topico já cadastrado. Id: " + topico.getId());
-        }
-
-        var topicoResponse = topicoService.criarTopico(cadastro, curso);
+        var topicoResponse = topicoService.criarTopico(cadastro);
 
         return ResponseEntity.ok(topicoResponse);
     }
@@ -69,21 +51,13 @@ public class TopicoController {
 
         DadosTopicoResponse topico = topicoService.atualizarTopico(id, atualizacao);
 
-        if (topico == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
         return ResponseEntity.ok(topico);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removerTopico(@PathVariable Long id) {
 
-        var mensagem = topicoService.removerTopico(id);
-
-        if (mensagem != null) {
-            return ResponseEntity.badRequest().body(mensagem);
-        }
+        topicoService.removerTopico(id);
 
         return ResponseEntity.ok().build();
     }

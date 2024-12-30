@@ -3,6 +3,9 @@ package br.alura.ForumHub.service;
 import br.alura.ForumHub.dto.topico.DadosTopicoAtualizacao;
 import br.alura.ForumHub.dto.topico.DadosTopicoCadastro;
 import br.alura.ForumHub.dto.topico.DadosTopicoResponse;
+import br.alura.ForumHub.infra.exception.ValidacaoException;
+import br.alura.ForumHub.infra.validacao.topico.atualizacao.ValidacaoAtualizacaoTopico;
+import br.alura.ForumHub.infra.validacao.topico.criacao.ValidacaoCriacaodeTopico;
 import br.alura.ForumHub.model.entities.Curso;
 import br.alura.ForumHub.model.entities.Topico;
 import br.alura.ForumHub.model.entities.Usuario;
@@ -12,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -26,8 +31,18 @@ public class TopicoService {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private List<ValidacaoCriacaodeTopico> validacoesCriacao;
+
+    @Autowired
+    private List<ValidacaoAtualizacaoTopico> validacoesAtualizacao;
+
     @Transactional
-    public DadosTopicoResponse criarTopico(DadosTopicoCadastro cadastro, Curso curso) {
+    public DadosTopicoResponse criarTopico(DadosTopicoCadastro cadastro) {
+
+        validacoesCriacao.forEach(validacao -> validacao.validar(cadastro));
+
+        Curso curso = cursoService.buscarPorNome(cadastro.nomeCurso());
 
         Usuario autor = usuarioService.usuarioAtual();
 
@@ -56,32 +71,25 @@ public class TopicoService {
 
     @Transactional
     public DadosTopicoResponse atualizarTopico(Long id, DadosTopicoAtualizacao atualizacao) {
+
+        validacoesAtualizacao.forEach(validacao -> validacao.validar(id, atualizacao));
+
         Topico topico = topicoRepository.findById(id).orElse(null);
-
-        if (topico == null) {
-            return null;
-        }
-
-        if (topico.getAutor() != usuarioService.usuarioAtual()) {
-            return null;
-        }
-
         topico.atualizar(atualizacao);
 
         return new DadosTopicoResponse(topico);
     }
 
     @Transactional
-    public String removerTopico(Long id) {
+    public void removerTopico(Long id) {
 
         Topico topico = topicoRepository.findById(id).orElse(null);
 
         if (topico != null && topico.getAutor() != usuarioService.usuarioAtual()) {
-            return "Não foi possivel deletar o topico";
+            throw new ValidacaoException("Não foi possivel deletar o topico");
         }
 
         topicoRepository.deleteById(id);
-        return null;
     }
 
 }
