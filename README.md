@@ -86,6 +86,9 @@ src/
 
 Para realizar todas as funcionalidades presentes na API basta acessar os seguintes endpoints:
 
+- **POST /login:**
+    - Gera um Token JWT para ser enviado junto com as demais requisições da API. O Token JWT se responsabiliza por autenticar as requisições.
+
 - **GET /usuarios:**
     - Lista todos os usuários cadastrados no fórum.
 
